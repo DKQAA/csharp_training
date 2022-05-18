@@ -16,13 +16,13 @@ namespace WebAddressbookTests
         [Test]
         public void ContactCreationTest()
         {
-            GoToHomePage();
-            Login(new AccountData("admin", "secret"));
-            InitNewContactCreation();
-            FillContactForm(new ContactData("Anton","Pavlov"));
-            SubmitContactCreation();
-            ReturnToHomePage();
-            Logout();
+            navigator.GoToHomePage();
+            loginHelper.Login(new AccountData("admin", "secret"));
+            contactHelper.InitNewContactCreation();
+            contactHelper.FillContactForm(new ContactData("Anton","Pavlov"));
+            contactHelper.SubmitContactCreation();
+            navigator.ReturnToHomePage();
+            loginHelper.Logout();
         }
     }
 }
