@@ -69,9 +69,6 @@
     <Compile Include="appManager\ApplicationManager.cs" />
     <Compile Include="model\ContactData.cs" />
     <Compile Include="appManager\ContactHelper.cs" />
-    <Compile Include="FigureFolder\Circle.cs" />
-    <Compile Include="FigureFolder\Figure.cs" />
-    <Compile Include="FigureFolder\Square.cs" />
     <Compile Include="model\GroupData.cs" />
     <Compile Include="appManager\GroupHelper.cs" />
     <Compile Include="appManager\HelperBase.cs" />
@@ -79,14 +76,12 @@
     <Compile Include="appManager\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tests\GroupCreationTests.cs" />
-    <Compile Include="FigureFolder\FigureTests.cs" />
     <Compile Include="tests\ContactCreationTests.cs" />
     <Compile Include="tests\GroupRemovalTests.cs" />
     <Compile Include="tests\TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-    <None Include="FigureFolder\ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
