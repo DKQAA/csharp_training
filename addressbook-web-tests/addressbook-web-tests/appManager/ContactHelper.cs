@@ -19,13 +19,34 @@ namespace WebAddressbookTests
         public ContactHelper Create(ContactData contact)
         {
 
+            manager.Navigator.GoToHomePage();
             InitNewContactCreation();
             FillContactForm(contact);
             SubmitContactCreation();
-            ReturnToHomePage();
+            manager.Navigator.GoToHomePage();
             return this;
         }
 
+        internal ContactHelper Remove(int v)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(v);
+            RemoveContact();
+            SubmitRemove();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper Modify(int v, ContactData newData)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(v);
+            InitContactModification();
+            FillContactForm(newData);
+            UpdateContact();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
 
         public ContactHelper SubmitContactCreation()
         {
@@ -49,10 +70,34 @@ namespace WebAddressbookTests
             driver.FindElement(By.LinkText("add new")).Click();
             return this;
         }
-        public ContactHelper ReturnToHomePage()
+  
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.LinkText("home page")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
             return this;
         }
+
+        public ContactHelper InitContactModification()
+        {
+            driver.FindElement(By.XPath("//img[@alt='Edit']")).Click();
+            return this;
+        }
+        public ContactHelper UpdateContact()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+        public ContactHelper RemoveContact()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            return this;
+        }
+        public ContactHelper SubmitRemove()
+        {
+            driver.SwitchTo().Alert().Accept();
+            return this;
+        }
+
+        
     }
 }
