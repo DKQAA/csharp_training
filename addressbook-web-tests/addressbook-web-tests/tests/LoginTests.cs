@@ -33,7 +33,7 @@ namespace WebAddressbookTests
             Thread.Sleep(1000);
 
             //action
-            AccountData account = new AccountData("admin", "12345");
+            AccountData account = new AccountData("admin", "54321");
             app.Auth.Login(account);
 
             //verification
