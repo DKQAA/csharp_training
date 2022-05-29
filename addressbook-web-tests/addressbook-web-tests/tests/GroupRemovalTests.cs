@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : TestBase
+    public class GroupRemovalTests : AuthTestBase
     {
    
 
@@ -18,8 +18,17 @@ namespace WebAddressbookTests
         public void GroupRemovalTest()
         {
 
+            GroupData group = new GroupData("Созданная");
+            group.Header = "для";
+            group.Footer = "удаления";
+
+            if (app.Groups.GroupCreated() == false)
+            {
+                app.Groups.Create(group);
+            }
+
             app.Groups.Remove(1);
-      
+
         }
     }
 }

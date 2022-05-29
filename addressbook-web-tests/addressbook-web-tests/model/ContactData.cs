@@ -39,8 +39,5 @@ namespace WebAddressbookTests
                 lastname = value;
             }
         }
-
-
-
     }
 }
