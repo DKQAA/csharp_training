@@ -7,6 +7,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Text.RegularExpressions;
+
 
 namespace WebAddressbookTests
 {
@@ -184,6 +186,14 @@ namespace WebAddressbookTests
         public int GetContactsCount()
         {
             return driver.FindElements(By.XPath("//tr[@name='entry']")).Count;
+        }
+
+        public int GetNumberOfSearchResults()
+        {
+            manager.Navigator.GoToHomePage();
+            string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+            return Int32.Parse(m.Value);
         }
     }
 }
