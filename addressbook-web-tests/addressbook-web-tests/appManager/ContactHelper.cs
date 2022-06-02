@@ -17,6 +17,38 @@ namespace WebAddressbookTests
 
         public ContactHelper(ApplicationManager manager)
             : base(manager) { }
+     
+
+        public ContactHelper Create(ContactData contact)
+        {
+
+            manager.Navigator.GoToHomePage();
+            InitNewContactCreation();
+            FillContactForm(contact);
+            SubmitContactCreation();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        internal ContactHelper Remove(int v)
+        {
+            manager.Navigator.GoToHomePage();
+            SelectContact(v);
+            RemoveContact();
+            SubmitRemove();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper Modify(int v, ContactData newData)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactModification(v);
+            FillContactForm(newData);
+            UpdateContact();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
 
         public ContactData GetContactInformationFromTable(int index)
         {
@@ -65,36 +97,6 @@ namespace WebAddressbookTests
             };
         }
 
-        public ContactHelper Create(ContactData contact)
-        {
-
-            manager.Navigator.GoToHomePage();
-            InitNewContactCreation();
-            FillContactForm(contact);
-            SubmitContactCreation();
-            manager.Navigator.GoToHomePage();
-            return this;
-        }
-
-        internal ContactHelper Remove(int v)
-        {
-            manager.Navigator.GoToHomePage();
-            SelectContact(v);
-            RemoveContact();
-            SubmitRemove();
-            manager.Navigator.GoToHomePage();
-            return this;
-        }
-
-        public ContactHelper Modify(int v, ContactData newData)
-        {
-            manager.Navigator.GoToHomePage();
-            InitContactModification(v);
-            FillContactForm(newData);
-            UpdateContact();
-            manager.Navigator.GoToHomePage();
-            return this;
-        }
 
         public bool ContactCreated()
         {
@@ -172,6 +174,11 @@ namespace WebAddressbookTests
 
                 foreach (IWebElement element in elements)
                 {
+                    if (!element.Displayed) 
+                    {
+                        continue;
+                    }
+
                     IList<IWebElement> cells = element.FindElements(By.TagName("td"));
                     contactCache.Add(new ContactData(cells[2].Text, cells[1].Text)
                     {
@@ -194,6 +201,11 @@ namespace WebAddressbookTests
             string text = driver.FindElement(By.TagName("label")).Text;
             Match m = new Regex(@"\d+").Match(text);
             return Int32.Parse(m.Value);
+        }
+
+        public void SearchInput()
+        {
+            driver.FindElement(By.Name("searchstring")).SendKeys("a");
         }
     }
 }

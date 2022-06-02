@@ -13,7 +13,11 @@ namespace WebAddressbookTests
         [Test]
         public void TestSearch()
         {
-            System.Console.Out.Write(app.Contacts.GetNumberOfSearchResults());
+            app.Navigator.GoToHomePage();
+            app.Contacts.SearchInput();
+            app.Contacts.GetNumberOfSearchResults();
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            Assert.AreEqual(oldContacts.Count, app.Contacts.GetNumberOfSearchResults());
         }
     }
 }
