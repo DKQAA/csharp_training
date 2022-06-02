@@ -19,7 +19,14 @@ namespace WebAddressbookTests
         {
 
             ContactData contact = new ContactData("Pavel","Abidov");
-           
+            contact.Address = "Monte Carlo";
+            contact.HomePhone = "+73472356515";
+            contact.MobilePhone = "+79003332100";
+            contact.WorkPhone = "+79436548998";
+            contact.Email = "dragon2000@ya.ru";
+            contact.Email2 = "hiworld100@google.com";
+            contact.Email3 = "bigfish@rambler.ru";
+
 
             List<ContactData> oldContacts = app.Contacts.GetContactList();
 

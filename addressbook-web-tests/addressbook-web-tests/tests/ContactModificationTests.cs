@@ -14,8 +14,15 @@ namespace WebAddressbookTests.tests
         public void ContactModificationTest()
         {
 
-            ContactData newData = new ContactData("Andrey","Armizonov");
-            
+            ContactData newData = new ContactData("Andrey","Abatov");
+            newData.Address = "Bronx";
+            newData.HomePhone = "+73472356514";
+            newData.MobilePhone = "+79003332100";
+            newData.WorkPhone = "+79436548998";
+            newData.Email = "cat2000@ya.ru";
+            newData.Email2 = "wowworld100@google.com";
+            newData.Email3 = "slimboos@rambler.ru";
+
 
             if (app.Contacts.ContactCreated() == false)
             {

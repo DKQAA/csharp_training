@@ -18,6 +18,14 @@ namespace WebAddressbookTests
         public void ContactRemovalTest()
         {
             ContactData newData = new ContactData("Andrey","Brotskiy");
+            newData.Address = "Paris";
+            newData.HomePhone = "+73472356515";
+            newData.MobilePhone = "+79003332100";
+            newData.WorkPhone = "+79436548998";
+            newData.Email = "cat2000@ya.ru";
+            newData.Email2 = "byworld100@google.com";
+            newData.Email3 = "oldfish@rambler.ru";
+
 
             if (app.Contacts.ContactCreated() == false)
             {
