@@ -149,7 +149,7 @@ namespace WebAddressbookTests
                 else
                 {
                     string fullName = FullNameGluing();
-                    string address = Address + "\r\n" + "\r\n";
+                    string address = AddressGluing();
                     string phones = PhoneGluing(HomePhone) + PhoneGluing(MobilePhone) + PhoneGluing(WorkPhone) + "\r\n";
                     string contactDetails = fullName + address + phones + AllEmails;
                     return contactDetails;
@@ -161,8 +161,11 @@ namespace WebAddressbookTests
             }
         }
 
+        public string Name { get; internal set; }
+
         private string FullNameGluing()
         {
+            
             if (LastName.Length > 0 && FirstName.Length > 0)
             {
                 string fullName = (FirstName + " " + LastName + "\r\n");
@@ -185,5 +188,20 @@ namespace WebAddressbookTests
             }
             return phone;
         }
+
+        private string AddressGluing()
+        {
+            if (Address.Length > 0)
+            {
+                string address = Address + "\r\n";
+                return address;
+            }
+            else
+            {
+                return "\r\n";
+            }
+        }
+
+
     }
 }
