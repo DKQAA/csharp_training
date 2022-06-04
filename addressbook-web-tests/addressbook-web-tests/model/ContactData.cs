@@ -12,9 +12,9 @@ namespace WebAddressbookTests
 
         private string allPhones;
         private string allEmails;
-        private string allContactDetails;
+        private string contactDetails;
 
-        public ContactData (string firstname, string lastname)
+        public ContactData(string firstname, string lastname)
         {
             FirstName = firstname;
             LastName = lastname;
@@ -62,19 +62,7 @@ namespace WebAddressbookTests
 
         public string FirstName { get; set; }
 
-        public string NickName { get; set; }
-
         public string LastName { get; set; }
-
-        public string MiddleName { get; set; }
-
-        public string Company { get; set; }
-
-        public string Title { get; set; }
-
-        public string Homepage { get; set; }
-
-        public string Address2 { get; set; }
 
         public string Address { get; set; }
 
@@ -84,8 +72,6 @@ namespace WebAddressbookTests
 
         public string WorkPhone { get; set; }
 
-        public string FaxPhone { get; set; }
-
         public string Email { get; set; }
 
         public string Email2 { get; set; }
@@ -93,113 +79,6 @@ namespace WebAddressbookTests
         public string Email3 { get; set; }
 
         public string Id { get; set; }
-
-        
-        public string AllContactDetails
-        {
-            
-            get
-            {
-                if (allContactDetails != null)
-                {
-                    return allContactDetails;
-                }
-                else
-                {
-                    string allDetails = (CleanUpAllDetails(GetContacts(FirstName, MiddleName, LastName, NickName, Title, Company, Address))
-                                           + CleanUpAllDetails(GetPhones(HomePhone, MobilePhone, WorkPhone, FaxPhone))
-                                           + CleanUpAllDetails(GetEmail(Email, Email2, Email3, Homepage))).Trim();
-                    return allDetails;
-                }
-            }
-            set
-            {
-                allContactDetails = value;
-            }
-        }
-
-
-        private string GetContacts(string firstname, string middlename, string lastname, string nickname, string title, string company, string address)
-        {
-            return CleanUpAllDetails(GetNameFull(firstname, middlename, lastname))
-                        + CleanUpAllDetails(nickname)
-                        + CleanUpAllDetails(title)
-                        + CleanUpAllDetails(company)
-                        + CleanUpAllDetails(address);
-        }
-
-        private string GetNameFull(string firstname, string middlename, string lastname)
-        {
-            string bufer = "";
-            if (firstname != null && firstname != "")
-            {
-                bufer = FirstName + " ";
-            }
-            if (middlename != null && middlename != "")
-            {
-                bufer = bufer + MiddleName + " ";
-            }
-            if (lastname != null && lastname != "")
-            {
-                bufer = bufer + LastName + " ";
-            }
-            return bufer.Trim();
-        }
-
-        private string GetPhones(string home, string mobile, string work, string fax)
-        {
-            string bufer = "";
-            if (home != null && home != "")
-            {
-                bufer = bufer + "H: " + HomePhone + "\r\n";
-            }
-            if (mobile != null && mobile != "")
-            {
-                bufer = bufer + "M: " + MobilePhone + "\r\n";
-            }
-            if (work != null && work != "")
-            {
-                bufer = bufer + "W: " + WorkPhone + "\r\n";
-            }
-            if (fax != null && fax != "")
-            {
-                bufer = bufer + "F: " + FaxPhone + "\r\n";
-            }
-            return bufer;
-        }
-
-        private string GetEmail(string email, string email2, string email3, string homepage)
-        {
-            string bufer = "";
-            if (email != null && email != "")
-            {
-                bufer = bufer + email + "\r\n";
-            }
-            if (email2 != null && email2 != "")
-            {
-                bufer = bufer + email2 + "\r\n";
-            }
-            if (email3 != null && email3 != "")
-            {
-                bufer = bufer + email3 + "\r\n";
-            }
-            if (homepage != null && homepage != "")
-            {
-                bufer = bufer + "Homepage:" + "\r\n" + homepage + "\r\n";
-            }
-            return bufer;
-        }
-
-
-        private string CleanUpAllDetails(string detail) 
-        {
-            if (detail == null || detail == "")
-            {
-                return "";
-            }
-            return detail + "\r\n";
-        }
-
 
         public string AllPhones
         {
@@ -240,7 +119,6 @@ namespace WebAddressbookTests
             }
         }
 
-
         private string PhoneCleanUp(string phone)
         {
             if (phone == null || phone == "")
@@ -249,6 +127,7 @@ namespace WebAddressbookTests
             }
             return Regex.Replace(phone, "[ -()]", "") + "\r\n";
         }
+
         private string EmailCleanUp(string email)
         {
             if (email == null || email == "")
@@ -256,7 +135,73 @@ namespace WebAddressbookTests
                 return "";
             }
             return Regex.Replace(email, "[ ]", "") + "\r\n";
+
         }
+
+        public string ContactDetails
+        {
+            get
+            {
+                if (contactDetails != null)
+                {
+                    return contactDetails;
+                }
+                else
+                {
+                    string fullName = FullNameGluing();
+                    string address = AddressGluing();
+                    string phones = PhoneGluing(HomePhone) + PhoneGluing(MobilePhone) + PhoneGluing(WorkPhone) + "\r\n";
+                    string contactDetails = fullName + address + phones + AllEmails;
+                    return contactDetails;
+                }
+            }
+            set
+            {
+                contactDetails = value;
+            }
+        }
+
+        public string Name { get; internal set; }
+
+        private string FullNameGluing()
+        {
+            
+            if (LastName.Length > 0 && FirstName.Length > 0)
+            {
+                string fullName = (FirstName + " " + LastName + "\r\n");
+                return fullName;
+            }
+            else
+            {
+                string fullName = (FirstName + LastName + "\r\n");
+                return fullName;
+            }
+        }
+
+        private string PhoneGluing(string phone)
+        {
+            if (!string.IsNullOrEmpty(phone))
+            {
+                if (phone == HomePhone) { phone = "H: " + HomePhone + "\r\n"; }
+                else if (phone == WorkPhone) { phone = "W: " + WorkPhone + "\r\n"; }
+                else if (phone == MobilePhone) { phone = "M: " + MobilePhone + "\r\n"; }
+            }
+            return phone;
+        }
+
+        private string AddressGluing()
+        {
+            if (Address.Length > 0)
+            {
+                string address = Address + "\r\n";
+                return address;
+            }
+            else
+            {
+                return "\r\n";
+            }
+        }
+
 
     }
 }
