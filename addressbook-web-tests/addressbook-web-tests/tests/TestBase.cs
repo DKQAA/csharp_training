@@ -22,7 +22,7 @@ namespace WebAddressbookTests
 
         public static Random rnd = new Random();
 
-        public static string GenerateRandonString(int max)
+        public static string GenerateRandomString(int max)
         {
             
             int l = Convert.ToInt32(rnd.NextDouble() * max);
@@ -33,5 +33,10 @@ namespace WebAddressbookTests
             }
             return bulder.ToString();
         }
+
+
+
+
+
     }
 }

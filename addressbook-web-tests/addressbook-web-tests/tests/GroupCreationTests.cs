@@ -19,11 +19,11 @@ namespace WebAddressbookTests
             List<GroupData> groups = new List<GroupData>();
             for (int i = 0; i < 5; i++)
             {
-                groups.Add(new GroupData(GenerateRandonString(30))
+                groups.Add(new GroupData(GenerateRandomString(30))
                 {
 
-                    Header = GenerateRandonString(100),
-                    Footer = GenerateRandonString(30)
+                    Header = GenerateRandomString(100),
+                    Footer = GenerateRandomString(30)
                 });
             }
             return groups;
