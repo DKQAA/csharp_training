@@ -15,6 +15,10 @@ namespace WebAddressbookTests
     
         }
 
+        public GroupData()
+        {
+        }
+
         public bool Equals(GroupData other)
         {
             if(Object.ReferenceEquals(other, null))
@@ -35,7 +39,7 @@ namespace WebAddressbookTests
 
         public override string ToString()
         {
-            return "name" + Name + "\nheader= " + Header + "\nfooter = " + Footer;
+            return "name =" + Name + "\nheader= " + Header + "\nfooter = " + Footer;
         }
         public int CompareTo(GroupData other)
         {
