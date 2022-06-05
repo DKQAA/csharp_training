@@ -7,14 +7,16 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace WebAddressbookTests
 {
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
-        
-     
             public static IEnumerable<ContactData> RandomContactDataProvider()
         {
             List<ContactData> contacts = new List<ContactData>();
@@ -38,7 +40,21 @@ namespace WebAddressbookTests
             return contacts;
         }
 
-        [Test, TestCaseSource("RandomContactDataProvider")]
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>) 
+                new XmlSerializer(typeof(List<ContactData>)).
+                Deserialize(new StreamReader(@"contacts.xml"));
+        }
+
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(
+                File.ReadAllText(@"contacts.json"));
+        }
+
+
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
         { 
 
@@ -60,16 +76,16 @@ namespace WebAddressbookTests
 
 
 
-
-
-//ContactData contact = new ContactData("Pavel","Abidov");
-//contact.MiddleName = "Ivanovic";
-// contact.NickName = "BigDragon";
-//contact.Address = "Monte Carlo";
-// contact.HomePhone = "+73472356515";
-//contact.MobilePhone = "+79003332100";
-//contact.WorkPhone = "+79436548998";
-// contact.FaxPhone = "+734725644";
-// contact.Email = "dragon2000@ya.ru";
-// contact.Email2 = "hiworld100@google.com";
-// contact.Email3 = "bigfish@rambler.ru";
+/*
+ContactData contact = new ContactData("Pavel","Abidov");
+contact.MiddleName = "Ivanovic";
+contact.NickName = "BigDragon";
+contact.Address = "Monte Carlo";
+contact.HomePhone = "+73472356515";
+contact.MobilePhone = "+79003332100";
+contact.WorkPhone = "+79436548998";
+contact.FaxPhone = "+734725644";
+contact.Email = "dragon2000@ya.ru";
+contact.Email2 = "hiworld100@google.com";
+contact.Email3 = "bigfish@rambler.ru";
+*/
