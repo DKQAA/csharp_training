@@ -28,8 +28,6 @@ namespace WebAddressbookTests
             return this;
         }
 
-   
-
         public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
@@ -41,7 +39,16 @@ namespace WebAddressbookTests
             return this;
         }
 
-
+        public void Modify(GroupData group, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(group.Id);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            
+        }
 
         public GroupHelper Remove(int v)
         {
@@ -154,7 +161,5 @@ namespace WebAddressbookTests
         {
             return driver.FindElements(By.CssSelector("span.group")).Count;
         }
-
-      
     }
 }

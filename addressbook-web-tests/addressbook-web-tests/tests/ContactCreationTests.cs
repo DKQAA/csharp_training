@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : ContactTestBase
     {
             public static IEnumerable<ContactData> RandomContactDataProvider()
         {
@@ -56,36 +56,35 @@ namespace WebAddressbookTests
 
         [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
-        { 
+        {
 
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetContactAll();
 
             app.Contacts.Create(contact);
 
             Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactsCount());
 
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetContactAll();
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
             Assert.AreEqual(oldContacts, newContacts);
+        }
+        [Test]
+        public void TestDBConnectivityCon()
+        {
+            DateTime start = DateTime.Now;
+            List<ContactData> fromUi = app.Contacts.GetContactList(); 
+            DateTime end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start)); 
 
+            start = DateTime.Now;
+            List<ContactData> fromDb = ContactData.GetContactAll();
+            end = DateTime.Now;
+            System.Console.Out.WriteLine(end.Subtract(start));
         }
     }
 }
 
 
 
-/*
-ContactData contact = new ContactData("Pavel","Abidov");
-contact.MiddleName = "Ivanovic";
-contact.NickName = "BigDragon";
-contact.Address = "Monte Carlo";
-contact.HomePhone = "+73472356515";
-contact.MobilePhone = "+79003332100";
-contact.WorkPhone = "+79436548998";
-contact.FaxPhone = "+734725644";
-contact.Email = "dragon2000@ya.ru";
-contact.Email2 = "hiworld100@google.com";
-contact.Email3 = "bigfish@rambler.ru";
-*/

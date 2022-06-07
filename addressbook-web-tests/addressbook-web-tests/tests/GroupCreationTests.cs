@@ -15,7 +15,7 @@ using System.Linq;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class GroupCreationTests : GroupTestBase
+    public class GroupCreationTests : ContactTestBase
     {
 
         public static IEnumerable<GroupData> RandomGroupDataProvider()
