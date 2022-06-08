@@ -71,5 +71,14 @@ namespace WebAddressbookTests
             }
         }
 
+        public List<ContactData> GetContacts() //находит контакты, которые пренадлежат группе
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts
+                        from gcr in db.GCR.Where(p => p.GroupId == Id && p.ContactId == c.Id)
+                        select c).Distinct().ToList();
+            }
+        }
     }
 }
