@@ -153,5 +153,14 @@ namespace WebAddressbookTests
                 System.Console.Out.WriteLine(contact);
             }
         }
+
+        [Test]
+        public void TestDBConnectivityDep()
+        {
+            foreach (ContactData contact in ContactData.GetContactAll())
+            {
+                System.Console.Out.WriteLine(contact.Deprecated);
+            }
+        }
     }
 }

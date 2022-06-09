@@ -71,6 +71,57 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.GoToHomePage();
+            ClearGroupFilter();
+            SelectContactId(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        public void RemoveContactFromGroup(ContactData contact, GroupData group) 
+        {
+            manager.Navigator.GoToHomePage();
+            SelectGroupToRemove(group.Name);
+            SelectContactId(contact.Id);
+            CommitRemovingContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0); 
+        }
+
+        private void CommitRemovingContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        private void SelectGroupToRemove(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        public void SelectContactId(string contactId)
+        {
+            driver.FindElement(By.Id(contactId)).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
         public ContactHelper InitContactModification(String id)
         {
             driver.FindElement(By.XPath(String.Format("//a[@href='edit.php?id={0}']", id))).Click();
@@ -130,7 +181,6 @@ namespace WebAddressbookTests
                 Email3 = email3
             };
         }
-
 
         public bool ContactCreated()
         {
@@ -295,8 +345,6 @@ namespace WebAddressbookTests
                 Email2 = email2,
                 Email3 = email3,
                 Homepage = homepage,
-                
-
             };
         }
 
@@ -310,5 +358,37 @@ namespace WebAddressbookTests
                 AllContactDetails = allContactDetails
             };
         }
+
+        public ContactHelper CheckToContactExistance() 
+        {
+            manager.Navigator.GoToHomePage();
+            if (!IsElementPresent(By.Name("entry")))
+            {
+                ContactData contact = new ContactData("aaa", "bbb");
+                Create(contact);
+            }
+            return this;
+        }
+
+        public void InContactsExistGroup(GroupData group) 
+        {
+            if (ContactData.GetContactAll().Except(group.GetContacts()).Count() == 0)
+            {
+                ContactData contact = group.GetContacts().First();
+
+                RemoveContactFromGroup(contact, group);
+            }
+        }
+
+        public void NoContactsExistInGroup(GroupData group) 
+        {
+            if (group.GetContacts().Count() == 0)
+            {
+                ContactData contact = ContactData.GetContactAll().First();
+
+                AddContactToGroup(contact, group);
+            }
+        }
+
     }
 }

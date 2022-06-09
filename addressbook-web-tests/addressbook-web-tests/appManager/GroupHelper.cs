@@ -161,5 +161,21 @@ namespace WebAddressbookTests
         {
             return driver.FindElements(By.CssSelector("span.group")).Count;
         }
+
+        public GroupHelper CheckGroupExistence() 
+        {
+            manager.Navigator.GoToGroupsPage();
+            if (!GroupCreated())
+            {
+                GroupData group = new GroupData("BooooM");
+                group.Header = "Bag";
+                group.Footer = "Bug";
+                Create(group);
+            }
+            return this;
+        }
+
+
+
     }
 }
